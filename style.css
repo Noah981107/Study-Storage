@@ -22,9 +22,9 @@ h1 {
   padding : 20px;
 }
 ol {
-  border-right : 1px solid gray;
+  border-right : 1px solid black;
   width : 150px;
-  margin : 10;
+  margin : 0;
   padding : 32px;
 }
 body {
