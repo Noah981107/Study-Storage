@@ -15,6 +15,13 @@
       </script>
     </p>
     <style>
+      #movie {
+        padding - left : 25px
+      }
+      #grid {
+        display : grid;
+        grid-template-columns: 200px 1fr;
+      }
       #active {
         color : red;
       }
@@ -36,7 +43,7 @@
         border-right : 1px solid gray;
         width : 150px;
         margin : 10;
-        padding : 20px;
+        padding : 32px;
       }
       body {
         margin : 0;
@@ -46,29 +53,31 @@
 
   <body>
     <h1> <a href = "index.html">광주 풋살 매칭 시스템 </a> </h1>
-    <ol>
-      <li><a href = "North.html" class = "saw">광주광역시 북구</a> </li>
-      <li><a href = "South.html" class = "saw" id = "active">광주광역시 남구</a> </li>
-      <li><a href = "East.html" class = "saw">광주광역시 동구</a> </li>
-      <li><a href = "Mine.html">광주광역시 광산구</a> </li>
-      <li><a href = "West.html">광주광역시 서구</a> </li>
-    </ol>
-    <!--
-    <h1> <a href = "index.html"><font color = "red"> 광주 풋살 매칭 시스템</font> </a> </h1>
-    <ol>
-      <li><a href = "North.html"><font color = "blue"> 광주광역시 북구</font></a> </li>
-      <li><a href = "South.html"><font color = "yellow"> 광주광역시 남구</font></a> </li>
-      <li><a href = "East.html"> <font color = "black">광주광역시 동구</font></a> </li>
-      <li><a href = "Mine.html"> <font color = "green">광주광역시 광산구</font></a> </li>
-      <li><a href = "West.html"> <font color = "red">광주광역시 서구</font></a> </li>
-    </ol>
-    -->
-    <p>
-      <iframe width="560" height="315"
-      src="https://www.youtube.com/embed/Ud7D7MCy8rs" frameborder="0"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media;
-      gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </p>
+    <div id = "grid">
+      <ol>
+        <li><a href = "North.html" class = "saw">광주광역시 북구</a> </li>
+        <li><a href = "South.html" class = "saw" id = "active">광주광역시 남구</a> </li>
+        <li><a href = "East.html" class = "saw">광주광역시 동구</a> </li>
+        <li><a href = "Mine.html">광주광역시 광산구</a> </li>
+        <li><a href = "West.html">광주광역시 서구</a> </li>
+      </ol>
+      <!--
+      <h1> <a href = "index.html"><font color = "red"> 광주 풋살 매칭 시스템</font> </a> </h1>
+      <ol>
+        <li><a href = "North.html"><font color = "blue"> 광주광역시 북구</font></a> </li>
+        <li><a href = "South.html"><font color = "yellow"> 광주광역시 남구</font></a> </li>
+        <li><a href = "East.html"> <font color = "black">광주광역시 동구</font></a> </li>
+        <li><a href = "Mine.html"> <font color = "green">광주광역시 광산구</font></a> </li>
+        <li><a href = "West.html"> <font color = "red">광주광역시 서구</font></a> </li>
+      </ol>
+      -->
+      <div id = "movie">
+        <iframe width="560" height="315"
+        src="https://www.youtube.com/embed/Ud7D7MCy8rs" frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media;
+        gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    <div>
     <p>
       <div id="disqus_thread"></div>
       <script>
