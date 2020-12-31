@@ -23,12 +23,6 @@ class TNode : # 이진트리를 위한 노드 클래스
         self.data = data # 노드의 데이터
         self.left = left # 왼쪽 자식 노드
         self.right = right # 오른쪽 자식 노드
-
-def inorder(n) : # 중위 순회
-    if n is not None : # root 노드가 None이 아니면
-        inorder(n.left) # 왼쪽 서브트리 처리
-        print(n.data, end = " ") # 루트노드 처리
-        inorder(n.right) # 오른족 서브트리 처리
          
 def preorder(n) : # 전위 순회
     if n is not None : # root 노드가 None이 아니면 
@@ -36,6 +30,11 @@ def preorder(n) : # 전위 순회
         preorder(n.left) # 왼쪽 서브트리 처리
         preorder(n.right) # 왼쪽 서브트리 처리
 
+def inorder(n) : # 중위 순회
+    if n is not None : # root 노드가 None이 아니면
+        inorder(n.left) # 왼쪽 서브트리 처리
+        print(n.data, end = " ") # 루트노드 처리
+        inorder(n.right) # 오른족 서브트리 처리
 
 def postorder(n) : # 후위 순회
     if n is not None : # root 노드가 None이 아니면
@@ -76,7 +75,23 @@ def calc_height(n) : # 트리의 높이 계산
         return hLeft + 1 
     else :
         return hRight + 1
-#=====================================================================
+
+def is_complete_binary_tree(n) : # 완전 이진트리 확인 
+    check_cbt = (2 ** calc_height(n))-1 # 2의 트리의 높이수만큼 제곱에서 -1했을때가 완전 이진 트리의 노드의 수
+    if (check_cbt == count_node(n)) : # 트리의 노드 수와 완전 이진트리일 경우의 노드수를 비교
+        return True # 동일하면 True
+    else : # 동일하지 않다면
+        return False # False
+
+def reverse(n) : # 트리의 좌우 반전
+    if n is None : # n이 None이면
+        return 0 # 0을 반환
+    n.left , n.right = n.right, n.left # 부모노드의 왼쪽 노드와 오른쪽 노드를 변경
+    reverse(n.left) # 왼쪽 자식 노드도 동일하게 적용
+    reverse(n.right) # 오른쪽 자식 노드도 동일하게 적용
+    return n # 좌우 반전 된 트리 반환
+
+#===================================================================================
 g = TNode('G', None, None)
 c = TNode('C', None, None)
 d = TNode('D', None, None)
@@ -97,3 +112,13 @@ print()
 print("\n노드의 개수 = %d개" % count_node(root))
 print("\n단말의 개수 = %d개" % count_leaf(root))
 print("\n트리의 높이 = %d" % calc_height(root))
+
+if(is_complete_binary_tree(root) == True) :
+    print("\n완전 이진트리 입니다.")
+else :
+    print("\n완전 이진트리가 아닙니다.")
+
+print("\n트리의 좌우를 교환합니다.")
+print('Level-order : ', end = " ")
+levelorder(reverse(root))
+
