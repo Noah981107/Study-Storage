@@ -10,9 +10,16 @@ var app = http.createServer(function(request,response){
 
     if(pathname == '/') {
       if(queryData.id == undefined) {
-        fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
+        fs.readdir('./data', function(error,filelist) {
           var title = '광주 풋살 매칭 시스템';
           var description = '광주 풋살 매칭 시스템'
+          var list = '<ul>';
+          var i = 0 ;
+          while(i<filelist.length) {
+            list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+            i = i + 1;
+          }
+          list = list + `</ul>`;
           var template =`
           <!DOCTYPE html>
           <html>
@@ -25,55 +32,53 @@ var app = http.createServer(function(request,response){
             <body>
               <h1> <a href = "/">광주 풋살 매칭 시스템 </a> </h1>
               <div id = "grid">
-                <ul>
-                  <li><a href = "/?id=북구">광주광역시 북구</a> </li>
-                  <li><a href = "/?id=남구">광주광역시 남구</a> </li>
-                  <li><a href = "/?id=동구">광주광역시 동구</a> </li>
-                  <li><a href = "/?id=광산구">광주광역시 광산구</a> </li>
-                  <li><a href = "/?id=서구">광주광역시 서구</a> </li>
-                <ul>
+                ${list}
                 <div id = "location">
                   ${description}
                 </div>
               </div>
             </body>
           </html>
-          `;
+          `
           response.writeHead(200);
           response.end(template);
-        });
+        })
       }
       else {
-        fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
-          var title = queryData.id;
-          var template =`
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset = "utf-8">
-              <title> 광주 풋살 매칭 시스템 </title>
-              <link rel = "stylesheet" href = "style.css">
-            </head>
+        fs.readdir('./data', function(error,filelist) {
+          var title = '광주 풋살 매칭 시스템';
+          var list = '<ul>';
+          var i = 0 ;
+          while(i<filelist.length) {
+            list = list +`<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+            i = i + 1;
+          }
+          list = list + `</ul>`;
+          fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
+            var title = queryData.id;
+            var template =`
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <meta charset = "utf-8">
+                <title> 광주 풋살 매칭 시스템 </title>
+                <link rel = "stylesheet" href = "style.css">
+              </head>
 
-            <body>
-              <h1> <a href = "/">광주 풋살 매칭 시스템 </a> </h1>
-              <div id = "grid">
-                <ul>
-                  <li><a href = "/?id=북구">광주광역시 북구</a> </li>
-                  <li><a href = "/?id=남구">광주광역시 남구</a> </li>
-                  <li><a href = "/?id=동구">광주광역시 동구</a> </li>
-                  <li><a href = "/?id=광산구">광주광역시 광산구</a> </li>
-                  <li><a href = "/?id=서구">광주광역시 서구</a> </li>
-                <ul>
-                <div id = "location">
-                  ${description}
+              <body>
+                <h1> <a href = "/">광주 풋살 매칭 시스템 </a> </h1>
+                <div id = "grid">
+                  ${list}
+                  <div id = "location">
+                    ${description}
+                  </div>
                 </div>
-              </div>
-            </body>
-          </html>
-          `;
-          response.writeHead(200);
-          response.end(template);
+              </body>
+            </html>
+            `;
+            response.writeHead(200);
+            response.end(template);
+          });
         });
       }
     }
