@@ -16,6 +16,7 @@ function templataeHTML(title, list, description) {
       <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
       <div id = "grid">
         ${list}
+      <p><a href="/create">create</a></p>
         <div id = "location">
           ${description}
         </div>
@@ -40,7 +41,6 @@ var app = http.createServer(function(request,response){
     var _url = request.url;
     var queryData = url.parse(_url,true).query;
     var pathname = url.parse(_url,true).pathname;
-
     if(pathname == '/') {
       if(queryData.id == undefined) {
         fs.readdir('./data', function(error,filelist) {
@@ -64,6 +64,28 @@ var app = http.createServer(function(request,response){
           });
         });
       }
+    }
+    else if(pathname === '/create'){
+      fs.readdir('./data', function(error,filelist) {
+        var title = '풋살 신청서';
+        var description = '광주 풋살 매칭 시스템'
+        var list = templateList(filelist);
+        var template = templataeHTML(title, list, `
+          <form action="http://localhost:3000/process_create" method ="post">
+            <p>
+              <input type = "text" name = "title" placeholder = "title">
+            </p>
+            <p>
+              <textarea name = "description" placeholder = "description"></textarea>
+            </p>
+            <p>
+              <input type = "submit">
+            </p>
+          </form>
+          `);
+        response.writeHead(200);
+        response.end(template);
+      })
     }
     else {
       response.writeHead(404);
