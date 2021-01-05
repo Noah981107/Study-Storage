@@ -3,7 +3,7 @@ var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
 
-function templataeHTML(title, list, description) {
+function templataeHTML(title, list, body, control) {
   return `
   <!DOCTYPE html>
   <html>
@@ -16,10 +16,8 @@ function templataeHTML(title, list, description) {
       <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
       <div id = "grid">
         ${list}
-      <p><a href="/create">create</a></p>
-        <div id = "location">
-          ${description}
-        </div>
+        ${control}
+        ${body}
       </div>
     </body>
   </html>
@@ -27,7 +25,7 @@ function templataeHTML(title, list, description) {
 }
 
 function templateList(filelist) {
-  var list = '<ul>';
+  var list = `<ul>`;
   var i = 0 ;
   while(i<filelist.length) {
     list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
@@ -47,7 +45,7 @@ var app = http.createServer(function(request,response){
           var title = '광주 풋살 매칭 시스템';
           var description = '광주 풋살 매칭 시스템'
           var list = templateList(filelist);
-          var template = templataeHTML(title, list, description);
+          var template = templataeHTML(title, list, description,`<a href="/create">create</a>`);
           response.writeHead(200);
           response.end(template);
         })
@@ -58,7 +56,7 @@ var app = http.createServer(function(request,response){
           var list = templateList(filelist);
           fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
             var title = queryData.id;
-            var template = templataeHTML(title, list, description);
+            var template = templataeHTML(title, list, description,`<a href="/create">create</a> <a href="/update?id=${title}">update</a>`);
             response.writeHead(200);
             response.end(template);
           });
