@@ -8,12 +8,12 @@ function templataeHTML(title, list, description) {
   <html>
     <head>
       <meta charset = "utf-8">
-      <title> 광주 풋살 매칭 시스템 </title>
+      <title> 광주 풋살 매칭 시스템</title>
       <link rel = "stylesheet" href = "style.css">
     </head>
 
     <body>
-      <h1> <a href = "/">광주 풋살 매칭 시스템 </a> </h1>
+      <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
       <div id = "grid">
         ${list}
         <div id = "location">
