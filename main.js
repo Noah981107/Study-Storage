@@ -12,7 +12,6 @@ function templataeHTML(title, list, description) {
       <title> 광주 풋살 매칭 시스템</title>
       <link rel = "stylesheet" href = "style.css">
     </head>
-
     <body>
       <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
       <div id = "grid">
@@ -69,7 +68,7 @@ var app = http.createServer(function(request,response){
     else if(pathname === '/create'){
       fs.readdir('./data', function(error,filelist) {
         var title = '풋살 신청서';
-        var description = '광주 풋살 매칭 시스템'
+        var description = '광주 풋살 매칭 시스템';
         var list = templateList(filelist);
         var template = templataeHTML(title, list, `
           <form action="http://localhost:3000/create_process" method ="post">
@@ -96,11 +95,13 @@ var app = http.createServer(function(request,response){
       request.on('end', function(){
         var post = qs.parse(body);
         var title = post.title;
-        var description = post.decription
-        console.log(post);
+        var description = post.description;
+        fs.writeFile(`data/${title}`, description, 'utf8',
+        function(err){
+          response.writeHead(302, {Location: `/?id=${title}`});
+          response.end('success');
+        })
       });
-      response.writeHead(200);
-      response.end('success');
     }
     else {
       response.writeHead(404);
