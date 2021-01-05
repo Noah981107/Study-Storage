@@ -69,7 +69,7 @@ var app = http.createServer(function(request,response){
         var description = '광주 풋살 매칭 시스템';
         var list = templateList(filelist);
         var template = templataeHTML(title, list, `
-          <form action="http://localhost:3000/create_process" method ="post">
+          <form action="/create_process" method ="post">
             <p>
               <input type = "text" name = "title" placeholder = "title">
             </p>
@@ -99,6 +99,32 @@ var app = http.createServer(function(request,response){
           response.writeHead(302, {Location: `/?id=${title}`});
           response.end('success');
         })
+      });
+    }
+    else if(pathname === '/update'){
+      fs.readdir('./data', function(error,filelist) {
+        var title = '광주 풋살 매칭 시스템';
+        var list = templateList(filelist);
+        fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
+          var title = queryData.id;
+          var template = templataeHTML(title, list,`
+            <form action="/update_process" method ="post">
+              <input type = "hidden" name ="id" value="${title}">
+              <p>
+                <input type = "text" name = "title" placeholder = "title" value = "${title}">
+              </p>
+              <p>
+                <textarea name = "description" placeholder = "description" >${description}</textarea>
+              </p>
+              <p>
+                <input type = "submit">
+              </p>
+            </form>
+            `,
+            `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`);
+          response.writeHead(200);
+          response.end(template);
+        });
       });
     }
     else {
