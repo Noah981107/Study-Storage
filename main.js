@@ -3,36 +3,36 @@ var fs = require('fs');
 var url = require('url');
 var qs = require('querystring');
 
-function templataeHTML(title, list, body, control) {
-  return `
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <meta charset = "utf-8">
-      <title> 광주 풋살 매칭 시스템</title>
-      <link rel = "stylesheet" href = "style.css">
-    </head>
-    <body>
-      <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
-      <div id = "grid">
-        ${list}
-        ${control}
-        ${body}
-      </div>
-    </body>
-  </html>
-  `;
-}
-
-function templateList(filelist) {
-  var list = `<ul>`;
-  var i = 0 ;
-  while(i<filelist.length) {
-    list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
-    i = i + 1;
+var template = {
+  HTML:function(title, list, body, control) {
+    return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset = "utf-8">
+        <title> 광주 풋살 매칭 시스템</title>
+        <link rel = "stylesheet" href = "style.css">
+      </head>
+      <body>
+        <h1> <a href = "/">광주 풋살 매칭 시스템</a> </h1>
+        <div id = "grid">
+          ${list}
+          ${control}
+          ${body}
+        </div>
+      </body>
+    </html>
+    `;
+  }, LIST :function(filelist) {
+    var list = `<ul>`;
+    var i = 0 ;
+    while(i<filelist.length) {
+      list = list + `<li><a href="/?id=${filelist[i]}">${filelist[i]}</a></li>`;
+      i = i + 1;
+    }
+    list = list + `</ul>`;
+    return list;
   }
-  list = list + `</ul>`;
-  return list;
 }
 
 var app = http.createServer(function(request,response){
@@ -44,29 +44,21 @@ var app = http.createServer(function(request,response){
         fs.readdir('./data', function(error,filelist) {
           var title = '광주 풋살 매칭 시스템';
           var description = '광주 풋살 매칭 시스템'
-          var list = templateList(filelist);
-          var template = templataeHTML(title, list, description,`<a href="/create">create</a>`);
+          var list = template.LIST(filelist);
+          var template2 = template.HTML(title, list, description,`<a href="/create">create</a>`);
           response.writeHead(200);
-          response.end(template);
+          response.end(template2);
         })
       }
       else {
         fs.readdir('./data', function(error,filelist) {
           var title = '광주 풋살 매칭 시스템';
-          var list = templateList(filelist);
+          var list = template.LIST(filelist);
           fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
             var title = queryData.id;
-            var template = templataeHTML(title, list, description,`
-                <a href="/create">create</a>
-                <a href="/update?id=${title}">update</a>
-                <form action="delete_process" method="post">
-                  <input type="hidden" name="id" value="${title}">
-                  <input type="submit" value="delete">
-                </form>
-                `
-              );
+            var template2 = template.HTML(title, list, description,`<a href="/create">create</a> <a href="/update?id=${title}">update</a>`);
             response.writeHead(200);
-            response.end(template);
+            response.end(template2);
           });
         });
       }
@@ -75,8 +67,8 @@ var app = http.createServer(function(request,response){
       fs.readdir('./data', function(error,filelist) {
         var title = '풋살 신청서';
         var description = '광주 풋살 매칭 시스템';
-        var list = templateList(filelist);
-        var template = templataeHTML(title, list, `
+        var list = template.LIST(filelist);
+        var template2 = template.HTML(title, list, `
           <form action="/create_process" method ="post">
             <p>
               <input type = "text" name = "title" placeholder = "title">
@@ -90,7 +82,7 @@ var app = http.createServer(function(request,response){
           </form>
           `);
         response.writeHead(200);
-        response.end(template);
+        response.end(template2);
       })
     }
     else if(pathname == '/create_process'){
@@ -112,10 +104,10 @@ var app = http.createServer(function(request,response){
     else if(pathname === '/update'){
       fs.readdir('./data', function(error,filelist) {
         var title = '광주 풋살 매칭 시스템';
-        var list = templateList(filelist);
+        var list = template.LIST(filelist);
         fs.readFile(`data/${queryData.id}`, 'utf8', function(err,description){
           var title = queryData.id;
-          var template = templataeHTML(title, list,`
+          var template2 = template.HTML(title, list,`
             <form action="/update_process" method ="post">
               <input type = "hidden" name ="id" value="${title}">
               <p>
@@ -131,7 +123,7 @@ var app = http.createServer(function(request,response){
             `,
             `<a href="/create">create</a> <a href="/update?id=${title}">update</a>`);
           response.writeHead(200);
-          response.end(template);
+          response.end(template2);
         });
       });
     }
@@ -145,28 +137,12 @@ var app = http.createServer(function(request,response){
         var id = post.id;
         var title = post.title;
         var description = post.description;
-        fs.rename(`data/${id}`, `data/${title}`, function(error){
-          fs.writeFile(`data/${title}`, description, 'utf8',
-          function(err){
-            response.writeHead(302, {Location: `/?id=${title}`});
-            response.end('success');
-          });
+        fs.writeFile(`data/${title}`, description, 'utf8',
+        function(err){
+          response.writeHead(302, {Location: `/?id=${title}`});
+          response.end('success');
         });
-      });
-    }
-    else if(pathname === '/delete_process'){
-      var body = '';
-      request.on('data',function(data){
-        body += data;
-      });
-      request.on('end', function(){
-        var post = qs.parse(body);
-        var id = post.id;
-        fs.unlink(`data/${id}`, function(error){
-          response.writeHead(302, {Location: `/`});
-          response.end();
-        })
-      });
+      })
     }
     else {
       response.writeHead(404);
