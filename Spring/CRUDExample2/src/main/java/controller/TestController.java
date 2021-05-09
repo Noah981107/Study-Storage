@@ -32,9 +32,16 @@ public class TestController {
         return "Member Inquiry Complete";
     }
 
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public String delete(@PathVariable String id){
+        testService.deleteUser(id);
+        return "User delete Complete";
+    }*/
+
+    @ResponseBody
+    @RequestMapping(value ="/delete", method=RequestMethod.DELETE)
+    public String delete(@RequestParam(value="id", defaultValue = "false") String id){
         testService.deleteUser(id);
         return "User delete Complete";
     }
