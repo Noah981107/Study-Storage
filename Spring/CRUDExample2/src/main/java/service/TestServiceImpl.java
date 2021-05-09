@@ -17,7 +17,23 @@ public class TestServiceImpl implements TestService {
         this.userRepository = userRepository;
     }
 
+    @Override
     public List<Users> getUsers(){
         return userRepository.getUsers();
+    }
+
+    @Override
+    public void deleteUser(String id) {
+        userRepository.deleteUser(id);
+    }
+
+    @Override
+    public void insertUser(Users user) {
+        userRepository.insertUser(user);
+    }
+
+    @Override
+    public void updateUser(Users user) {
+        userRepository.updateUser(user);
     }
 }

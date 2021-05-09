@@ -3,17 +3,20 @@ package controller;
 import domain.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import service.TestService;
 
 import java.util.List;
 
 @Controller
 public class TestController {
-    @Autowired
+
     private TestService testService;
+
+    @Autowired
+    public TestController(TestService testService){
+        this.testService = testService;
+    }
 
     @ResponseBody
     @RequestMapping(value = "/read", method = RequestMethod.GET)
@@ -26,6 +29,27 @@ public class TestController {
             System.out.println("phone_number : " +  user.getPhone_number());
             System.out.println("---------------------------");
         }
-        return "Complete";
+        return "Member Inquiry Complete";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+    public String delete(@PathVariable String id){
+        testService.deleteUser(id);
+        return "User delete Complete";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String insert(@RequestBody Users user){
+        testService.insertUser(user);
+        return "User insert Complete";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public String update(@RequestBody Users user){
+        testService.updateUser(user);
+        return "User update Complete";
     }
 }
