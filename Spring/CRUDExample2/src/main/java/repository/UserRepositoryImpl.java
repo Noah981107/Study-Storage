@@ -13,7 +13,7 @@ public class UserRepositoryImpl implements UserRepository {
     private static String className = "com.mysql.cj.jdbc.Driver";
     private static String dbUrl = "jdbc:mysql://localhost:3306/shoppingmall?serverTimezone=UTC";
     private static String dbUser = "root";
-    private static String DbPassword = "981772";
+    private static String DbPassword = "password";
 
     @Override
     public List<Users> getUsers() {
