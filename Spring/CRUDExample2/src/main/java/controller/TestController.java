@@ -20,7 +20,7 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping(value = "/read", method = RequestMethod.GET)
-    public String find(){
+    public String read(){
         List<Users> temp = testService.getUsers();
         for(Users user: temp){
             System.out.println("id : " + user.getId());
