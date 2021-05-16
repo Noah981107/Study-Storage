@@ -5,8 +5,24 @@
 
 <mapper namespace="repository.TestMapper">
 
-    <select id="test" resultType="String">
+    <select id="test" resultType="string">
         SELECT user_id FROM shoppingmall.user_info LIMIT 1;
+    </select>
+
+    <select id="insertUser" parameterType="domain.Users">
+        INSERT INTO shoppingmall.user_info(user_id, user_pw, user_address, user_phonenumber) VALUES (#{user_id},#{user_pw},#{user_address},#{user_phonenumber});
+    </select>
+
+    <select id="readUser" resultType="domain.Users">
+        SELECT u.user_id, u.user_pw, u.user_address, u.user_phonenumber FROM shoppingmall.user_info AS u;
+    </select>
+
+    <select id="updateUser" parameterType="domain.Users">
+        UPDATE shoppingmall.user_info SET user_address = #{user_address}, user_phonenumber = #{user_phonenumber} WHERE user_id = #{user_id};
+    </select>
+
+    <select id="deleteUser" parameterType="string">
+        DELETE FROM shoppingmall.user_info WHERE id = #{id};
     </select>
 
 </mapper>
