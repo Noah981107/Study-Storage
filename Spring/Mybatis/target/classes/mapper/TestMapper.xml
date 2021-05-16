@@ -25,5 +25,4 @@
         DELETE FROM shoppingmall.user_info WHERE id = #{id};
     </select>
 
-
 </mapper>

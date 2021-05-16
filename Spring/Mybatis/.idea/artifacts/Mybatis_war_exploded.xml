@@ -34,6 +34,7 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-webmvc:3.2.18.RELEASE" />
           <element id="library" level="project" name="Spring-3.2.18.RELEASE" />
           <element id="library" level="project" name="Spring MVC-3.2.18.RELEASE" />
+          <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.6.10" />
         </element>
       </element>
     </root>

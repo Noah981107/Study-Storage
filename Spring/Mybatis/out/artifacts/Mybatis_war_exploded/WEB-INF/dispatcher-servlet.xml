@@ -14,7 +14,15 @@
     <context:component-scan base-package="controller"/>
     <context:component-scan base-package="serviceImpl"/>
     <context:component-scan base-package="repository"/>
+    <context:component-scan base-package="aop"/>
 
     <context:property-placeholder location="classpath*:mybatis/config.properties" />
+    <aop:aspectj-autoproxy />
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**" />
+            <bean class="interceptor.TestInterceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 </beans>
