@@ -16,6 +16,8 @@ public class TestInterceptor  extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        System.out.println("handler name : " + handler.toString());
+        System.out.println("Interceptor end! ");
         super.postHandle(request, response, handler, modelAndView);
     }
 

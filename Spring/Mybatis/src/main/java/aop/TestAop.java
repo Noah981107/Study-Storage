@@ -9,14 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestAop {
 
-    @Around("execution( * controller.TestController..*(..))") // login 전, 후 실행 around
+    @Around("execution( * controller.TestController..*(..))")
     public Object LogInLog(ProceedingJoinPoint proceedingJoinPoint) {
         Object result = null;
         try {
+            long beforeTime = System.currentTimeMillis();
             System.out.println("aop start -around !! ");
-            result = proceedingJoinPoint.proceed(); // do target
+            result = proceedingJoinPoint.proceed();
             System.out.println("aop end - around !! ");
-        } catch (Throwable throwable) { // 에러 발생 실행
+            long afterTime = System.currentTimeMillis();
+            long secDiffTime = (afterTime - beforeTime);
+            System.out.println("시간차이: " +secDiffTime);
+        } catch (Throwable throwable) {
             System.out.println("exception!! ");
         }
         return result;
