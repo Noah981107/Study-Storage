@@ -17,7 +17,9 @@
     <context:component-scan base-package="aop"/>
 
     <context:property-placeholder location="classpath*:mybatis/config.properties" />
+
     <aop:aspectj-autoproxy />
+
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**" />

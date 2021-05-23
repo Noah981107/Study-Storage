@@ -45,8 +45,8 @@ public class TestController {
 
     @ResponseBody
     @RequestMapping(value ="/user", method = RequestMethod.DELETE)
-    public String delete(@RequestParam(value = "id", defaultValue = "false") String id){
-        testService.deleteUser(id);
+    public String delete(@RequestParam(value = "user_id", defaultValue = "false") String user_id){
+        testService.deleteUser(user_id);
         return "User delete Complete";
     }
 

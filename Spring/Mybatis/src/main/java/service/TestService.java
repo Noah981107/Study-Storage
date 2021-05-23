@@ -9,5 +9,5 @@ public interface TestService {
     String insertUser(Users user);
     List<Users> readUser();
     String updateUser(Users user);
-    String deleteUser(String id);
+    String deleteUser(String user_id);
 }

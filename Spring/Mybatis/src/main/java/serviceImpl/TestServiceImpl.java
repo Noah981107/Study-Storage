@@ -35,7 +35,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public String deleteUser(String id) {
-        return testMapper.deleteUser(id);
+    public String deleteUser(String user_id) {
+        return testMapper.deleteUser(user_id);
     }
 }
