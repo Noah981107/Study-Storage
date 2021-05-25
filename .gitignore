@@ -106,4 +106,4 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/intellij
 
-Spring/Mybatis/src/main/resources/mybatis/config
+Spring/Mybatis/src/main/resources/mybatis/config.properties
