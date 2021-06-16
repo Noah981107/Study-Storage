@@ -9,7 +9,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import repository.TestMapper;
 
 import java.util.*;
 
@@ -19,22 +18,7 @@ public class JwtUtil {
     @Value("${json.web.token.secret.key}")
     String secret;
 
-    @Autowired
-    TestMapper testMapper;
-
-    public String token_issued(String id){
-
-        String return_id = testMapper.token_issued(id);
-
-        if(return_id == null || return_id.isEmpty()){
-            try {
-                throw new Exception("There is no such id");
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "ID is None";
-            }
-        }
-        else{
+    public String token_issued(String return_id){
             Map<String, Object> headers = new HashMap<String, Object>(); // header
             headers.put("typ", "JWT");
             headers.put("alg","HS256");
@@ -44,35 +28,21 @@ public class JwtUtil {
             calendar.setTime(new Date());
             calendar.add(Calendar.HOUR_OF_DAY, 24); // access token expire 24h later
             Date exp = calendar.getTime();
-
             return Jwts.builder().setHeader(headers).setClaims(payloads).setExpiration(exp).signWith(SignatureAlgorithm.HS256, secret.getBytes()).compact();
-        }
     }
 
-    public Users get_user_inf(String token){
+    public String get_user_inf(String token){
         token = token.substring(7);
         Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
         String user_id = String.valueOf(claims.get("id", String.class));
-        return testMapper.get_user_inf(user_id);
+        return user_id;
     }
 
-    public String sign_up(Users user){
-        String user_id = user.getUser_id();
-        String result  = testMapper.check_id(user_id);
-        if (result == null || result.isEmpty()){
-            testMapper.sign_up(user);
-            return "Membership success";
-        }
-        else{
-            return "There is a duplicate ID";
-        }
-    }
-
-    public List<Orders> get_user_order(String token){
+    public String get_user_order(String token){
         token = token.substring(7);
         Claims claims = Jwts.parser().setSigningKey(secret.getBytes()).parseClaimsJws(token).getBody();
         String user_id = String.valueOf(claims.get("id", String.class));
-        return testMapper.get_user_order(user_id);
+        return user_id;
     }
 
     /** 토큰을 입력값으로 주어 Valid한지 체크하는 함수를 만들어 봅시다 */

@@ -18,23 +18,49 @@ public class TestServiceImpl implements TestService {
     @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    private TestMapper testMapper;
+
     @Override
     public String token_issued(String id) {
-        return jwtUtil.token_issued(id);
+        String return_id = testMapper.token_issued(id);
+
+        if(return_id == null || return_id.isEmpty()){
+            try {
+                throw new Exception("There is no such id");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "ID is None";
+            }
+        }
+        else{
+            return jwtUtil.token_issued(return_id);
+        }
     }
+
     @Override
     public Users get_user_inf(String token) {
-        return jwtUtil.get_user_inf(token);
+        String return_id = jwtUtil.get_user_inf(token);
+        return testMapper.get_user_inf(return_id);
     }
 
     @Override
     public String sign_up(Users user) {
-        return jwtUtil.sign_up(user);
+        String user_id = user.getUser_id();
+        String result  = testMapper.check_id(user_id);
+        if (result == null || result.isEmpty()){
+            testMapper.sign_up(user);
+            return "Membership success";
+        }
+        else{
+            return "There is a duplicate ID";
+        }
     }
 
     @Override
     public List<Orders> get_user_order(String token) {
-        return jwtUtil.get_user_order(token);
+        String user_id = jwtUtil.get_user_order(token);
+        return testMapper.get_user_order(user_id);
     }
 
 }

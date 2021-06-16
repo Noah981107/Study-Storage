@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import service.TestService;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 public class TestController {
@@ -30,11 +31,11 @@ public class TestController {
         return new ResponseEntity("login api", HttpStatus.OK);
     }
 
-    //사용자의 id에 따라 토큰을 발급하는 api - 0
+    //사용자의 id에 따라 토큰을 발급하는 api
     @ResponseBody
-    @RequestMapping(value = "/token", method = RequestMethod.GET)
-    public ResponseEntity token_issued(@RequestParam(value ="id", defaultValue = "false") String id){
-        return new ResponseEntity(testService.token_issued(id), HttpStatus.OK);
+    @RequestMapping(value = "/token", method = RequestMethod.POST)
+        public ResponseEntity token_issued(@RequestBody String id){
+            return new ResponseEntity(testService.token_issued(id), HttpStatus.OK);
     }
 
     // 로그인이 필요한 (토큰의 id 값에 따른) 사용자 정보 조회 API
@@ -56,7 +57,7 @@ public class TestController {
     @Auth
     @ResponseBody
     @RequestMapping(value = "/user/order", method = RequestMethod.GET)
-    public ResponseEntity get_user_order(@RequestHeader(value ="Authorization") String token){
+    public ResponseEntity get_user_order(@ApiIgnore @RequestHeader(value ="Authorization") String token){
         return new ResponseEntity(testService.get_user_order(token), HttpStatus.OK);
     }
 }
